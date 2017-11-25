@@ -6,7 +6,7 @@ $(document).ready(function() {
   game = new Game({
     rows: canvas.width / 10,
     columns: canvas.height / 10,
-    snake: undefined,
+    snake: new Snake(),
     ctx: ctx,
   });
 

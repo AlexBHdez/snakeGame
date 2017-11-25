@@ -1,5 +1,5 @@
 function Game (options) {
-  this.snake = undefined;
+  this.snake = new Snake();
   this.food = undefined;
   this.rows = options.rows;
   this.columns = options.columns;
@@ -15,6 +15,14 @@ Game.prototype._drawBoard = function () {
   }
 };
 
+Game.prototype._drawSnake = function () {
+  this.snake.body.forEach(function (position, index) {
+    this.ctx.fillStyle = 'green';
+    this.ctx.fillRect(position.column * 10, position.row * 10, 8, 8);
+  }.bind(this)); // me cambia el contexto del this.
+};
+
 Game.prototype.start = function () {
   this._drawBoard();
+  this._drawSnake();
 };
