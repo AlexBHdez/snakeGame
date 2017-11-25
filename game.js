@@ -1,5 +1,5 @@
 function Game (options) {
-  this.snake = new Snake();
+  this.snake = options.snake;
   this.food = undefined;
   this.rows = options.rows;
   this.columns = options.columns;
@@ -19,10 +19,37 @@ Game.prototype._drawSnake = function () {
   this.snake.body.forEach(function (position, index) {
     this.ctx.fillStyle = 'green';
     this.ctx.fillRect(position.column * 10, position.row * 10, 8, 8);
-  }.bind(this)); // me cambia el contexto del this.
+  }.bind(this)); // .bind(this) me cambia el contexto del this.
 };
 
 Game.prototype.start = function () {
+  this.snake.move();
+  window.requestAnimationFrame(this._update.bind(this));
+  this._assignControlsToKeys();
+};
+
+Game.prototype._update = function () {
   this._drawBoard();
   this._drawSnake();
+  window.requestAnimationFrame(this._update.bind(this));
 };
+
+Game.prototype._assignControlsToKeys = function () {
+  document.onkeydown = function (e) {
+    switch (e.keyCode) {
+      case 38: // arrow up
+        this.snake.goUp();
+        break;
+      case 40: // arrow down
+        this.snake.goDown();
+        break;
+      case 37: // arrow left
+        this.snake.goLeft();
+        break;
+      case 39: // arrow right
+        this.snake.goRight();
+        break;      
+    }
+  }.bind(this);
+};
+
