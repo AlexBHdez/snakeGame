@@ -74,3 +74,34 @@ Snake.prototype._moveForward = function () {
   
   this.previousTail = this.body.pop();
 };
+
+Snake.prototype.grow = function () {
+  if (this.previousTail) {
+    this.body.push(this.previousTail);
+    this.previousTail = undefined;
+  }
+};
+
+Snake.prototype.collidesWith = function (position) {
+  return this.body.some(function (element) {
+    return element.row === position.row && element.column === position.column;
+  });
+};
+
+Snake.prototype.hasEatenFood = function (food) {
+  return this.body[0].row === food.row && this.body[0].column === food.column;
+};
+
+Snake.prototype.hasEatenItSelf = function () {
+  return this.body.some(function (element, index, array) {
+    return (element.row === array[0].row && element.column === array[0].column && index != 0);
+  });
+};
+
+Snake.prototype.stop = function () {
+  if (this.intervalId) {
+    clearInterval(this.intervalId);
+    this.intervalId = undefined;  
+  }
+  
+};
